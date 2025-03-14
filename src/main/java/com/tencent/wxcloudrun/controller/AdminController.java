@@ -65,7 +65,7 @@ public class AdminController {
      * @author yozora
      * @date 12:11 2025/3/10
      **/
-    @PostMapping("confirmApply")
+    @PostMapping("/confirmApply")
     public ApiResponse<String> confirmApply(@RequestBody OrderReq orderReq) throws ServiceException {
         return new ApiResponse<>(orderService.confirmApply(orderReq));
     }
@@ -78,7 +78,7 @@ public class AdminController {
      * @author yozora
      * @date 16:40 2025/3/10
      **/
-    @PostMapping("confirmOrder")
+    @PostMapping("/confirmOrder")
     public ApiResponse<String> confirmOrder(@RequestBody UserOrderReq orderReq) throws ServiceException {
         if (orderReq.getOrderId() == null) {
             throw new ServiceException(ReturnConstant.ORDER_NULL, HttpStatus.BAD_REQUEST.value());
@@ -97,7 +97,7 @@ public class AdminController {
      * @author yozora
      * @date 16:46 2025/3/10
      **/
-    @PutMapping("updateOrder")
+    @PutMapping("/updateOrder")
     public ApiResponse<String> updateOrder(@RequestBody OrderReq orderReq) throws ServiceException {
         if (orderReq.getOrderId() == null) {
             throw new ServiceException(ReturnConstant.ORDER_NULL, HttpStatus.BAD_REQUEST.value());
