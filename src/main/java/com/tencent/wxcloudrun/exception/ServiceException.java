@@ -2,11 +2,8 @@ package com.tencent.wxcloudrun.exception;
 
 import org.springframework.http.HttpStatus;
 
-import java.io.Serial;
-
 public class ServiceException extends Exception {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Integer code;

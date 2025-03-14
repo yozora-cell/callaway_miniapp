@@ -2,7 +2,6 @@ package com.tencent.wxcloudrun.entity.vo;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,7 +13,6 @@ import java.io.Serializable;
 @Data
 public class UserVo implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     private String name;

@@ -2,7 +2,6 @@ package com.tencent.wxcloudrun.entity.dto;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,6 +31,5 @@ public class PreOrderInfo implements Serializable {
 
     private Date updateTime;
 
-    @Serial
     private static final long serialVersionUID = 1L;
 }

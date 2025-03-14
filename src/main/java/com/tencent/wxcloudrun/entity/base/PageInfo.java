@@ -3,7 +3,6 @@ package com.tencent.wxcloudrun.entity.base;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,7 +12,6 @@ import java.io.Serializable;
 @Data
 public class PageInfo implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 2840351558316760842L;
 
     /**

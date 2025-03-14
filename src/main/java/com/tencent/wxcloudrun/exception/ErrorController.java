@@ -1,11 +1,12 @@
 package com.tencent.wxcloudrun.exception;
 
 import lombok.extern.log4j.Log4j2;
-import org.cell.callaway.entity.base.ApiResponse;
+import com.tencent.wxcloudrun.entity.base.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -79,41 +82,25 @@ public class ErrorController {
         return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResponse<Map<String, String>> handleValidException(MethodArgumentNotValidException e) {
+        log.error(e.getMessage(), e);
+        Map<String, String> errorMsg = e.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage, (k1, k2) -> k1));
+        return new ApiResponse<>(500, "Parameter error", errorMsg);
+    }
 
-    /**
-     * 功能描述: 参数校验错误
-     *
-     * @param e 异常信息
-     * @return com.nash.nash_interface.entity.response.ApiResponse<java.io.Serializable>
-     * @author yozora
-     */
-    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
-    public ApiResponse<Serializable> handleValidatedException(Exception e) {
-        ApiResponse<Serializable> apiResponse = null;
-        log.error("invalid params: " + e.toString());
-        log.error(request.getRequestURL().toString());
-        if (e instanceof MethodArgumentNotValidException ex) {
-            // BeanValidation exception
-            apiResponse = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(),
-                    ex.getBindingResult().getAllErrors().stream()
-                            .map(ObjectError::getDefaultMessage)
-                            .collect(Collectors.joining("; "))
-            );
-        } else if (e instanceof ConstraintViolationException ex) {
-            // BeanValidation GET simple param
-            apiResponse = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(),
-                    ex.getConstraintViolations().stream()
-                            .map(constraintViolation -> constraintViolation.getPropertyPath() + ": " + constraintViolation.getMessage())
-                            .collect(Collectors.joining("; "))
-            );
-        } else if (e instanceof BindException ex) {
-            apiResponse = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(),
-                    ex.getAllErrors().stream()
-                            .map(ObjectError::getDefaultMessage)
-                            .collect(Collectors.joining("; "))
-            );
-        }
-        return apiResponse;
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ApiResponse<String> handleValidationException(ConstraintViolationException e) {
+        log.error(e.getMessage(), e);
+        String errorMsg = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","));
+        return new ApiResponse<>(500, "Parameter error", errorMsg);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ApiResponse<Map<String, String>> handleBindException(BindException e) {
+        log.error(e.getMessage(), e);
+        Map<String, String> errorMsg = e.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage, (k1, k2) -> k1));
+        return new ApiResponse<>(500, "Parameter error", errorMsg);
     }
 
     /**
