@@ -1,5 +1,6 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.entity.base.PageInfo;
 import com.tencent.wxcloudrun.entity.constant.BaseConstant;
 import com.tencent.wxcloudrun.entity.constant.OrderConstant;
@@ -9,7 +10,6 @@ import com.tencent.wxcloudrun.entity.request.OrderReq;
 import com.tencent.wxcloudrun.entity.request.UserReq;
 import com.tencent.wxcloudrun.entity.vo.UserVo;
 import com.tencent.wxcloudrun.exception.ServiceException;
-import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.service.OrderService;
 import com.tencent.wxcloudrun.service.UserService;
 import com.tencent.wxcloudrun.utils.JWTUtils;
@@ -96,5 +96,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return userVoList;
+    }
+
+    @Override
+    public UserVo userInfo() throws ServiceException {
+        UserInfo user = JWTUtils.getUser();
+        UserInfo userInfo = userMapper.selectByPrimaryKey(user.getId());
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(userInfo, userVo);
+
+        return userVo;
     }
 }

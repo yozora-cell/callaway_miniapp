@@ -21,4 +21,5 @@ public interface UserService {
 
     List<UserVo> list(int page, int size);
 
+    UserVo userInfo() throws ServiceException;
 }

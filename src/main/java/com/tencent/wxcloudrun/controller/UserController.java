@@ -42,6 +42,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/userInfo")
+    public ApiResponse<UserVo> userInfo() {
+        return new ApiResponse<>(userService.userInfo());
+    }
+
     /**
      * description: 获取用户列表
      *
