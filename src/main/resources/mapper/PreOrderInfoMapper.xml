@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tencent.wxcloudrun.dao.PreOrderInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tencent.wxcloudrun.entity.dto.PreOrderInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="coach" jdbcType="VARCHAR" property="coach"/>
+        <result column="value" jdbcType="INTEGER" property="value"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="is_del" jdbcType="CHAR" property="isDel"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, coach, `value`, price, content, is_del, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_order_info
+        where id = #{id,jdbcType=INTEGER} and is_del = '0'
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)
+        from pre_order_info
+        where is_del = '0'
+    </select>
+    <select id="selectList" resultType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_order_info
+        where is_del = '0'
+        order by create_time DESC
+        limit #{startIndex,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from pre_order_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo"
+            useGeneratedKeys="true">
+        insert into pre_order_info (coach, `value`, price, content,
+                                    is_del, create_time, update_time)
+        values (#{coach,jdbcType=VARCHAR},
+                #{value,jdbcType=INTEGER},
+                #{price,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR},
+                #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo" useGeneratedKeys="true">
+        insert into pre_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coach != null">
+                coach,
+            </if>
+            <if test="value != null">
+                `value`,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coach != null">
+                #{coach,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo">
+        update pre_order_info
+        <set>
+            <if test="coach != null">
+                coach = #{coach,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                `value` = #{value,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo">
+        update pre_order_info
+        set coach       = #{coach,jdbcType=VARCHAR},
+            `value`     = #{value,jdbcType=INTEGER},
+            price       = #{price,jdbcType=DECIMAL},
+            content     = #{content,jdbcType=VARCHAR},
+            is_del      = #{isDel,jdbcType=CHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

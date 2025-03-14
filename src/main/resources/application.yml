@@ -4,6 +4,7 @@ server:
 
 spring:
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:springboot_demo}
     username: ${MYSQL_USERNAME}
@@ -15,3 +16,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
+
+wechat:
+  appId: wxfe8a5231908ef6c9
+  appSecret: 13061ddb6503996bbaed041720d31e6b
