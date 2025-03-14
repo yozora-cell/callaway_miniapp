@@ -22,6 +22,8 @@ public class PreOrderVo implements Serializable {
 
     private BigDecimal price;
 
+    private Integer value;
+
     /**
      * 订单内容
      */
