@@ -59,9 +59,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
             // 解析 access token
             token = token.replace("Bearer ", "");
-            String userInfoStr = (String) CaffeineCacheUtil.get(token);
+            Object o = CaffeineCacheUtil.get(token);
             // 未获取到token信息
-            if (StringUtils.isBlank(userInfoStr)) {
+            if (o == null) {
                 log.info("token user address is null");
                 output(response, 1);
                 return false;

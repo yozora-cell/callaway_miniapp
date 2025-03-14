@@ -74,6 +74,7 @@ public class WeChatLoginService {
 //        map.put("openid", res.get("openid"));
 //        map.put("session_key", res.get("session_key"));
             map.put("token", token);
+            map.put("name", userInfo.getName());
             map.put("adminStatus", userInfo.getAdminStatus());
             map.put("vipApplyStatus", userInfo.getVipApplyStatus());
             map.put("vipStatus", userInfo.getVipStatus());

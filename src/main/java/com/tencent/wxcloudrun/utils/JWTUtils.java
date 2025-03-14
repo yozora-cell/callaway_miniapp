@@ -69,11 +69,11 @@ public class JWTUtils {
         String token = request != null ? request.getHeader(HttpHeaders.AUTHORIZATION) : null;
         assert token != null;
         token = token.replace("Bearer ", "");
-        String userInfoStr = (String) CaffeineCacheUtil.get(token);
-        if (StringUtils.isBlank(userInfoStr)) {
+        Object o = CaffeineCacheUtil.get(token);
+        if (o == null) {
             throw new ServiceException(HttpStatus.UNAUTHORIZED.getReasonPhrase(), HttpStatus.UNAUTHORIZED.value());
         }
-        return JSON.parseObject(userInfoStr, UserInfo.class);
+        return (UserInfo) o;
     }
 
     /**
