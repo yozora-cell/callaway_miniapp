@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public ApiResponse<UserVo> userInfo() {
+    public ApiResponse<UserVo> userInfo() throws ServiceException {
         return new ApiResponse<>(userService.userInfo());
     }
 
