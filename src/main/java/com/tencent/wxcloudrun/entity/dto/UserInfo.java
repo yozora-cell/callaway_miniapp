@@ -36,7 +36,7 @@ public class UserInfo {
     /**
      * 0-否 1是
      */
-    private String idDel;
+    private String isDel;
 
     private Date createTime;
 

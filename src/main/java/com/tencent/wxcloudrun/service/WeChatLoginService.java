@@ -61,7 +61,7 @@ public class WeChatLoginService {
                         .adminStatus(BaseConstant.NO)
                         .vipApplyStatus(BaseConstant.NO)
                         .vipStatus(BaseConstant.NO)
-                        .idDel(BaseConstant.NO)
+                        .isDel(BaseConstant.NO)
                         .createTime(new Date())
                         .updateTime(new Date())
                         .build();

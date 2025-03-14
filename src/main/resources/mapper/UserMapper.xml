@@ -9,12 +9,12 @@
         <result column="admin_status" jdbcType="CHAR" property="adminStatus"/>
         <result column="vip_status" jdbcType="CHAR" property="vipStatus"/>
         <result column="vip_apply_status" jdbcType="CHAR" property="vipApplyStatus"/>
-        <result column="is_del" jdbcType="CHAR" property="idDel"/>
+        <result column="is_del" jdbcType="CHAR" property="isDel"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, open_id, `name`, phone, admin_status, vip_status, vip_apply_status, id_del, create_time, update_time
+        id, open_id, `name`, phone, admin_status, vip_status, vip_apply_status, is_del, create_time, update_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -53,7 +53,7 @@
                                update_time)
         values (#{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
                 #{adminStatus,jdbcType=CHAR}, #{vipApplyStatus,jdbcType=CHAR},
-                #{vipStatus,jdbcType=CHAR}, #{idDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{vipStatus,jdbcType=CHAR}, #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
                 #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tencent.wxcloudrun.entity.dto.UserInfo"
@@ -78,8 +78,8 @@
             <if test="vipStatus != null">
                 vip_status,
             </if>
-            <if test="idDel != null">
-                id_del,
+            <if test="isDel != null">
+                is_del,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -107,8 +107,8 @@
             <if test="vipStatus != null">
                 #{vipStatus,jdbcType=CHAR},
             </if>
-            <if test="idDel != null">
-                #{idDel,jdbcType=CHAR},
+            <if test="isDel != null">
+                #{isDel,jdbcType=CHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -139,8 +139,8 @@
             <if test="vipStatus != null">
                 vip_status = #{vipStatus,jdbcType=CHAR},
             </if>
-            <if test="idDel != null">
-                id_del = #{idDel,jdbcType=CHAR},
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=CHAR},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -159,7 +159,7 @@
             admin_status     = #{adminStatus,jdbcType=CHAR},
             vip_apply_status = #{vipApplyStatus,jdbcType=CHAR},
             vip_status       = #{vipStatus,jdbcType=CHAR},
-            id_del           = #{idDel,jdbcType=CHAR},
+            is_del           = #{isDel,jdbcType=CHAR},
             create_time      = #{createTime,jdbcType=TIMESTAMP},
             update_time      = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=BIGINT}
