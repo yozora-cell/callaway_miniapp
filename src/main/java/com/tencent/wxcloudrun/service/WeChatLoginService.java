@@ -69,7 +69,6 @@ public class WeChatLoginService {
                 userMapper.insert(build);
                 userInfo = userMapper.selectByOpenId(res.getString("openid"));
             }
-            log.info("wechat login: {}", userInfo);
             String token = JWTUtils.createToken(userInfo, BaseConstant.ACCESS_TOKEN_TIME);
             Map<String, Object> map = new HashMap<>();
 //        map.put("openid", res.get("openid"));

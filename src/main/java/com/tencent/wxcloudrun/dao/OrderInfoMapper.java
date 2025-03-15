@@ -23,7 +23,7 @@ public interface OrderInfoMapper {
 
     OrderInfo selectOrderInfoByType(OrderReq orderReq);
 
-    int selectCountByType(@Param("type") int type, @Param("isActive") String isActive);
+    int selectCountByType(@Param("orderType") int type, @Param("isActive") String isActive);
 
-    List<OrderInfo> selectListByType(@Param("type") int type, @Param("isActive") String isActive, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
+    List<OrderInfo> selectListByType(@Param("orderType") int type, @Param("isActive") String isActive, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
 }
