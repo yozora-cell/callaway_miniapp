@@ -177,13 +177,12 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(ReturnConstant.NO_VALID_ORDER, HttpStatus.BAD_REQUEST.value());
         }
         // 增加或减少订单次数
-        int value = orderDetailInfo.getValue() + orderReq.getValue();
         OrderDetailInfo build1 = OrderDetailInfo.builder()
                 .id(orderDetailInfo.getId())
-                .value(value)
+                .value(orderReq.getValue())
                 .updateTime(new Date())
                 .build();
-        if (value <= 0) {
+        if (orderReq.getValue() <= 0) {
             build1.setIsDel(BaseConstant.YES);
         }
         orderDetailInfoMapper.updateByPrimaryKeySelective(build1);

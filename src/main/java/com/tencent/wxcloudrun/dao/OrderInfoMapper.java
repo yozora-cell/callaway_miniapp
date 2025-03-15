@@ -26,4 +26,10 @@ public interface OrderInfoMapper {
     int selectCountByType(@Param("orderType") int type, @Param("isActive") String isActive);
 
     List<OrderInfo> selectListByType(@Param("orderType") int type, @Param("isActive") String isActive, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
+
+    int selectCountByUserId(@Param("userId") Long userId, @Param("isActive") String isActive);
+
+    List<OrderInfo> selectListByUserId(@Param("userId") Long userId, @Param("isActive") String isActive, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
+
+
 }

@@ -1,13 +1,17 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.tencent.wxcloudrun.dao.OrderInfoMapper;
+import com.tencent.wxcloudrun.dao.PreOrderInfoMapper;
 import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.entity.base.PageInfo;
 import com.tencent.wxcloudrun.entity.constant.BaseConstant;
 import com.tencent.wxcloudrun.entity.constant.OrderConstant;
 import com.tencent.wxcloudrun.entity.dto.OrderInfo;
+import com.tencent.wxcloudrun.entity.dto.PreOrderInfo;
 import com.tencent.wxcloudrun.entity.dto.UserInfo;
 import com.tencent.wxcloudrun.entity.request.OrderReq;
 import com.tencent.wxcloudrun.entity.request.UserReq;
+import com.tencent.wxcloudrun.entity.vo.OrderDetailVo;
 import com.tencent.wxcloudrun.entity.vo.UserVo;
 import com.tencent.wxcloudrun.exception.ServiceException;
 import com.tencent.wxcloudrun.service.OrderService;
@@ -34,10 +38,14 @@ public class UserServiceImpl implements UserService {
 
     private final OrderService orderService;
     private final UserMapper userMapper;
+    private final OrderInfoMapper orderInfoMapper;
+    private final PreOrderInfoMapper preOrderInfoMapper;
 
-    public UserServiceImpl(OrderService orderService, UserMapper userMapper) {
+    public UserServiceImpl(OrderService orderService, UserMapper userMapper, OrderInfoMapper orderInfoMapper, PreOrderInfoMapper preOrderInfoMapper) {
         this.orderService = orderService;
         this.userMapper = userMapper;
+        this.orderInfoMapper = orderInfoMapper;
+        this.preOrderInfoMapper = preOrderInfoMapper;
     }
 
     @Override
@@ -107,4 +115,41 @@ public class UserServiceImpl implements UserService {
 
         return userVo;
     }
+
+    @Override
+    public List<OrderDetailVo> myApples(int page, int size) throws ServiceException {
+
+        UserInfo user = JWTUtils.getUser();
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setPageNum(page);
+        List<OrderDetailVo> orderDetailVoList = new ArrayList<>();
+        int total = orderInfoMapper.selectCountByUserId(user.getId(), BaseConstant.NO);
+        if (pageInfo.hasData(total)) {
+            List<OrderInfo> orderInfoList = orderInfoMapper.selectListByUserId(user.getId(), BaseConstant.NO, pageInfo.getStartIndex(), pageInfo.getPageSize());
+            if (!orderInfoList.isEmpty()) {
+                for (OrderInfo orderInfo : orderInfoList) {
+
+                    OrderDetailVo orderDetailVo = new OrderDetailVo();
+                    UserInfo userInfo = userMapper.selectByPrimaryKey(orderInfo.getUserId());
+
+                    orderDetailVo.setOrderId(orderInfo.getId());
+                    orderDetailVo.setUserId(userInfo.getId());
+                    orderDetailVo.setName(userInfo.getName());
+                    orderDetailVo.setPhone(userInfo.getPhone());
+
+                    if (orderInfo.getPreOrderId() != null) {
+                        PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderInfo.getPreOrderId());
+                        orderDetailVo.setPreOrderId(preOrderInfo.getId());
+                        orderDetailVo.setCoach(preOrderInfo.getCoach());
+                        orderDetailVo.setValue(preOrderInfo.getValue());
+                        orderDetailVo.setPrice(preOrderInfo.getPrice());
+                        orderDetailVo.setContent(preOrderInfo.getContent());
+                    }
+                    orderDetailVoList.add(orderDetailVo);
+                }
+            }
+        }
+        return orderDetailVoList;
+    }
+
 }

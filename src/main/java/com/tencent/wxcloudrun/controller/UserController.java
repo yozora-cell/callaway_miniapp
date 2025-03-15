@@ -19,6 +19,7 @@ package com.tencent.wxcloudrun.controller;
 import com.tencent.wxcloudrun.entity.base.ApiResponse;
 import com.tencent.wxcloudrun.entity.request.UserReq;
 import com.tencent.wxcloudrun.entity.request.WeChatLoginReq;
+import com.tencent.wxcloudrun.entity.vo.OrderDetailVo;
 import com.tencent.wxcloudrun.entity.vo.UserVo;
 import com.tencent.wxcloudrun.exception.ServiceException;
 import com.tencent.wxcloudrun.service.UserService;
@@ -59,6 +60,20 @@ public class UserController {
     @GetMapping("/list/{page}/{size}")
     public ApiResponse<List<UserVo>> list(@PathVariable int page, @PathVariable int size) {
         return new ApiResponse<>(userService.list(page, size));
+    }
+
+    /**
+     * description: 获取我的申请订单
+     *
+     * @param page 页码
+     * @param size 每页大小
+     * @return com.tencent.wxcloudrun.entity.base.ApiResponse<java.util.List < com.tencent.wxcloudrun.entity.vo.OrderDetailVo>>
+     * @author yozora
+     * @date 16:45 2025/3/15
+     **/
+    @GetMapping("myApples/{page}/{size}")
+    public ApiResponse<List<OrderDetailVo>> myApples(@PathVariable int page, @PathVariable int size) throws ServiceException {
+        return new ApiResponse<>(userService.myApples(page, size));
     }
 
     /**

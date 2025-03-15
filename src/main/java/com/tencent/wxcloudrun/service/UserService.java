@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.service;
 
 
 import com.tencent.wxcloudrun.entity.request.UserReq;
+import com.tencent.wxcloudrun.entity.vo.OrderDetailVo;
 import com.tencent.wxcloudrun.entity.vo.UserVo;
 import com.tencent.wxcloudrun.exception.ServiceException;
 
@@ -22,4 +23,7 @@ public interface UserService {
     List<UserVo> list(int page, int size);
 
     UserVo userInfo() throws ServiceException;
+
+    List<OrderDetailVo> myApples(int page, int size) throws ServiceException;
+
 }
