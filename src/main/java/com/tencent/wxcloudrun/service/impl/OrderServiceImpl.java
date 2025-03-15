@@ -266,6 +266,7 @@ public class OrderServiceImpl implements OrderService {
                     OrderDetailVo orderDetailVo = new OrderDetailVo();
                     UserInfo userInfo = userMapper.selectByPrimaryKey(orderInfo.getUserId());
 
+                    orderDetailVo.setOrderId(orderInfo.getId());
                     orderDetailVo.setUserId(userInfo.getId());
                     orderDetailVo.setName(userInfo.getName());
                     orderDetailVo.setPhone(userInfo.getPhone());
