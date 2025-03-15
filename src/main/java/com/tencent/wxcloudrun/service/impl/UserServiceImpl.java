@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
                 .phone(userReq.getPhone())
                 .updateTime(new Date())
                 .build();
+        log.info("update user info:{}", build1);
         userMapper.updateByPrimaryKeySelective(build1);
 
         OrderReq orderReq = new OrderReq();
