@@ -54,7 +54,7 @@
           and is_active = #{isActive,jdbcType=CHAR}
           and is_del = '0'
     </select>
-    <select id="selectListByUserId" resultType="com.tencent.wxcloudrun.entity.dto.OrderInfo">
+    <select id="selectListByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from order_info
