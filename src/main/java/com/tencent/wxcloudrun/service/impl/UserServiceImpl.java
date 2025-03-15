@@ -17,6 +17,7 @@ import com.tencent.wxcloudrun.exception.ServiceException;
 import com.tencent.wxcloudrun.service.OrderService;
 import com.tencent.wxcloudrun.service.UserService;
 import com.tencent.wxcloudrun.utils.JWTUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import java.util.List;
  * @date 2025/03/10 0:25
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 
@@ -132,6 +134,7 @@ public class UserServiceImpl implements UserService {
 
                     OrderDetailVo orderDetailVo = new OrderDetailVo();
                     UserInfo userInfo = userMapper.selectByPrimaryKey(orderInfo.getUserId());
+                    log.info("userInfo: {}", userInfo);
 
                     orderDetailVo.setOrderId(orderInfo.getId());
                     orderDetailVo.setUserId(userInfo.getId());
