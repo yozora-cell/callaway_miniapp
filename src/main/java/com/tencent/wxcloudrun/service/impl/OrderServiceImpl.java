@@ -265,15 +265,18 @@ public class OrderServiceImpl implements OrderService {
 
                     OrderDetailVo orderDetailVo = new OrderDetailVo();
                     UserInfo userInfo = userMapper.selectByPrimaryKey(orderInfo.getUserId());
-                    PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderInfo.getPreOrderId());
 
                     orderDetailVo.setUserId(userInfo.getId());
                     orderDetailVo.setName(userInfo.getName());
                     orderDetailVo.setPhone(userInfo.getPhone());
-                    orderDetailVo.setCoach(preOrderInfo.getCoach());
-                    orderDetailVo.setValue(preOrderInfo.getValue());
-                    orderDetailVo.setPrice(preOrderInfo.getPrice());
-                    orderDetailVo.setContent(preOrderInfo.getContent());
+
+                    if (orderInfo.getPreOrderId() != null) {
+                        PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderInfo.getPreOrderId());
+                        orderDetailVo.setCoach(preOrderInfo.getCoach());
+                        orderDetailVo.setValue(preOrderInfo.getValue());
+                        orderDetailVo.setPrice(preOrderInfo.getPrice());
+                        orderDetailVo.setContent(preOrderInfo.getContent());
+                    }
                     orderDetailVoList.add(orderDetailVo);
                 }
             }
