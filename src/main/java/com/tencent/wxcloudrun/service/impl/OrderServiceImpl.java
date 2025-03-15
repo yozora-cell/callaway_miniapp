@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderInfo build = OrderInfo.builder()
                 .id(orderInfo.getId())
-                .isActive(orderInfo.getIsActive())
+                .isActive(BaseConstant.YES)
                 .updateTime(new Date())
                 .build();
         orderInfoMapper.updateByPrimaryKeySelective(build);
