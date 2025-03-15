@@ -22,7 +22,7 @@
         from user_info
         where id = #{id,jdbcType=BIGINT} and is_del = '0'
     </select>
-    <select id="selectByOpenId" resultType="com.tencent.wxcloudrun.entity.dto.UserInfo">
+    <select id="selectByOpenId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user_info
@@ -33,7 +33,7 @@
         from user_info
         where is_del = '0'
     </select>
-    <select id="selectList" resultType="com.tencent.wxcloudrun.entity.dto.UserInfo">
+    <select id="selectList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user_info

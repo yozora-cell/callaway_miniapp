@@ -24,7 +24,7 @@
         from pre_order_info
         where is_del = '0'
     </select>
-    <select id="selectList" resultType="com.tencent.wxcloudrun.entity.dto.PreOrderInfo">
+    <select id="selectList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from pre_order_info

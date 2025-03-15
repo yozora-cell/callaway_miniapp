@@ -21,7 +21,7 @@
         from order_info
         where id = #{id,jdbcType=BIGINT}  and is_del = '0'
     </select>
-    <select id="selectOrderInfoByType" resultType="com.tencent.wxcloudrun.entity.dto.OrderInfo">
+    <select id="selectOrderInfoByType" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from order_info
@@ -37,7 +37,7 @@
           and is_active = #{isActive,jdbcType=CHAR}
           and is_del = '0'
     </select>
-    <select id="selectListByType" resultType="com.tencent.wxcloudrun.entity.dto.OrderInfo">
+    <select id="selectListByType" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from order_info

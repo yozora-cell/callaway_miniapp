@@ -6,9 +6,12 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:mini_club}
-    username: ${MYSQL_USERNAME}
-    password: ${MySQL_PASSWORD}
+    #    url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:mini_club}
+    #    username: ${MYSQL_USERNAME}
+    #    password: ${MySQL_PASSWORD}
+    url: jdbc:mysql://sh-cynosdbmysql-grp-cea7dqpo.sql.tencentcdb.com:29050/mini_club
+    username: root
+    password: sgaAfK85
   mvc:
     view:
       suffix: .html
