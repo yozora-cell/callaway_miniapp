@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService {
         UserInfo user = JWTUtils.getUser();
         UserInfo build1 = UserInfo.builder()
                 .id(user.getId())
-                .name(user.getName())
-                .phone(user.getPhone())
-                .updateTime(user.getUpdateTime())
+                .name(userReq.getName())
+                .phone(userReq.getPhone())
+                .updateTime(new Date())
                 .build();
         userMapper.updateByPrimaryKeySelective(build1);
 
