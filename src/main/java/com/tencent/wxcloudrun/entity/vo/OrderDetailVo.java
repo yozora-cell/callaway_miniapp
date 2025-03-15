@@ -20,6 +20,8 @@ public class OrderDetailVo implements Serializable {
 
     private Long userId;
 
+    private Integer preOrderId;
+
     private String name;
 
     private String phone;

@@ -272,6 +272,7 @@ public class OrderServiceImpl implements OrderService {
 
                     if (orderInfo.getPreOrderId() != null) {
                         PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderInfo.getPreOrderId());
+                        orderDetailVo.setPreOrderId(preOrderInfo.getId());
                         orderDetailVo.setCoach(preOrderInfo.getCoach());
                         orderDetailVo.setValue(preOrderInfo.getValue());
                         orderDetailVo.setPrice(preOrderInfo.getPrice());
