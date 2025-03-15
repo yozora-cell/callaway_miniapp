@@ -90,6 +90,29 @@ public class AdminController {
     }
 
     /**
+     * description: 快速确认订单
+     *
+     * @param orderReq order request
+     * @return com.tencent.wxcloudrun.entity.base.ApiResponse<java.lang.String>
+     * @author yozora
+     * @date 18:29 2025/3/15
+     **/
+    @PostMapping("/fastConfirmOrder")
+    public ApiResponse<String> fastConfirmOrder(@RequestBody UserOrderReq orderReq) throws ServiceException {
+        if (orderReq.getPreOrderId() == null) {
+            throw new ServiceException(ReturnConstant.PRE_ORDER_NULL, HttpStatus.BAD_REQUEST.value());
+        }
+        if (orderReq.getUserId() == null) {
+            throw new ServiceException(ReturnConstant.USER_NULL, HttpStatus.BAD_REQUEST.value());
+        }
+        if (orderReq.getValue() == null) {
+            throw new ServiceException(ReturnConstant.ORDER_COUNT_NULL, HttpStatus.BAD_REQUEST.value());
+        }
+        return new ApiResponse<>(orderService.fastConfirmOrder(orderReq));
+    }
+
+
+    /**
      * description: 更新订单
      *
      * @param orderReq order request

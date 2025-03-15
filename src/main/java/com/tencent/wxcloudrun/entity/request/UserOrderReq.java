@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class UserOrderReq {
 
+    private Long userId;
+
     private Long orderId;
 
     private Integer value;

@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
         UserInfo build1 = UserInfo.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .phone(user.getPhone())
                 .updateTime(user.getUpdateTime())
                 .build();
         userMapper.updateByPrimaryKeySelective(build1);

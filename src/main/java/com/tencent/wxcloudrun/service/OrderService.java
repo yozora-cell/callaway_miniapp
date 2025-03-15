@@ -37,4 +37,7 @@ public interface OrderService {
     List<OrderDetailVo> allUserOrders(int page, int size);
 
     List<OrderDetailVo> userApples(int type, int page, int size);
+
+    String fastConfirmOrder(UserOrderReq orderReq) throws ServiceException;
+
 }

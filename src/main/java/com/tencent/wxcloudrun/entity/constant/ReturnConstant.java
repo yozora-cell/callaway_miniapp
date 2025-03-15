@@ -8,6 +8,8 @@ package com.tencent.wxcloudrun.entity.constant;
  */
 public interface ReturnConstant {
 
+    String USER_NULL = "user can not be null";
+
     String PRE_ORDER_NULL = "pre order can not be null";
 
     String ORDER_NULL = "order can not be null";

@@ -1,5 +1,9 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.tencent.wxcloudrun.dao.OrderDetailInfoMapper;
+import com.tencent.wxcloudrun.dao.OrderInfoMapper;
+import com.tencent.wxcloudrun.dao.PreOrderInfoMapper;
+import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.entity.base.PageInfo;
 import com.tencent.wxcloudrun.entity.constant.BaseConstant;
 import com.tencent.wxcloudrun.entity.constant.OrderConstant;
@@ -13,10 +17,6 @@ import com.tencent.wxcloudrun.entity.request.UserOrderReq;
 import com.tencent.wxcloudrun.entity.vo.OrderDetailVo;
 import com.tencent.wxcloudrun.entity.vo.PreOrderVo;
 import com.tencent.wxcloudrun.exception.ServiceException;
-import com.tencent.wxcloudrun.dao.OrderDetailInfoMapper;
-import com.tencent.wxcloudrun.dao.OrderInfoMapper;
-import com.tencent.wxcloudrun.dao.PreOrderInfoMapper;
-import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.service.OrderService;
 import com.tencent.wxcloudrun.utils.JWTUtils;
 import org.springframework.beans.BeanUtils;
@@ -165,6 +165,47 @@ public class OrderServiceImpl implements OrderService {
                 .updateTime(new Date())
                 .build();
         orderInfoMapper.updateByPrimaryKeySelective(build);
+        return "success";
+    }
+
+    @Override
+    public String fastConfirmOrder(UserOrderReq orderReq) throws ServiceException {
+        isAdmin();
+        PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderReq.getPreOrderId());
+        if (preOrderInfo == null) {
+            throw new ServiceException(ReturnConstant.NO_PRE_ORDER, HttpStatus.BAD_REQUEST.value());
+        }
+        UserInfo userInfo = userMapper.selectByPrimaryKey(orderReq.getUserId());
+        if (userInfo == null) {
+            throw new ServiceException(ReturnConstant.NO_USER_INFO, HttpStatus.BAD_REQUEST.value());
+        }
+        OrderDetailInfo orderDetailInfo = orderDetailInfoMapper.selectByUserIdAndPreOrderId(orderReq.getUserId(), orderReq.getPreOrderId());
+        if (orderDetailInfo != null) {
+            // 增加订单次数
+            OrderDetailInfo build1 = OrderDetailInfo.builder()
+                    .id(orderDetailInfo.getId())
+                    .value(orderDetailInfo.getValue() + orderReq.getValue())
+                    .updateTime(new Date())
+                    .build();
+            orderDetailInfoMapper.updateByPrimaryKeySelective(build1);
+        } else {
+            // 创建订单
+            OrderDetailInfo build = OrderDetailInfo.builder()
+                    .userId(orderReq.getUserId())
+                    .orderId(orderReq.getOrderId())
+                    .preOrderId(orderReq.getPreOrderId())
+                    .name(userInfo.getName())
+                    .phone(userInfo.getPhone())
+                    .value(orderReq.getValue())
+                    .coach(preOrderInfo.getCoach())
+                    .price(preOrderInfo.getPrice())
+                    .content(preOrderInfo.getContent())
+                    .isDel(BaseConstant.NO)
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .build();
+            orderDetailInfoMapper.insertSelective(build);
+        }
         return "success";
     }
 
