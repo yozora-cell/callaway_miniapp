@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
         userMapper.updateByPrimaryKeySelective(build1);
         OrderInfo build = OrderInfo.builder()
                 .id(orderInfo.getId())
-                .isActive(orderInfo.getIsActive())
+                .isActive(BaseConstant.YES)
                 .updateTime(new Date())
                 .build();
         orderInfoMapper.updateByPrimaryKeySelective(build);
