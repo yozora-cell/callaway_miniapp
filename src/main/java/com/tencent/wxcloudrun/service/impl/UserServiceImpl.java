@@ -134,9 +134,8 @@ public class UserServiceImpl implements UserService {
 
                     OrderDetailVo orderDetailVo = new OrderDetailVo();
                     UserInfo userInfo = userMapper.selectByPrimaryKey(orderInfo.getUserId());
-                    log.info("userInfo: {}", userInfo);
 
-                    orderDetailVo.setOrderId(orderInfo.getId());
+                    orderDetailVo.setOrderId(user.getId());
                     orderDetailVo.setUserId(userInfo.getId());
                     orderDetailVo.setName(userInfo.getName());
                     orderDetailVo.setPhone(userInfo.getPhone());

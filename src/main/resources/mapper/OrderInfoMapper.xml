@@ -51,6 +51,7 @@
         select count(1)
         from order_info
         where user_id = #{userId,jdbcType=BIGINT}
+          and is_active = #{isActive,jdbcType=CHAR}
           and is_del = '0'
     </select>
     <select id="selectListByUserId" resultType="com.tencent.wxcloudrun.entity.dto.OrderInfo">
@@ -58,6 +59,7 @@
         <include refid="Base_Column_List"/>
         from order_info
         where user_id = #{userId,jdbcType=BIGINT}
+        and is_active = #{isActive,jdbcType=CHAR}
         and is_del = '0'
         order by create_time DESC
         limit #{startIndex,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
