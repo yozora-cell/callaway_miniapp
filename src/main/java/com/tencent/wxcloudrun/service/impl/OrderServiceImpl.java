@@ -130,8 +130,16 @@ public class OrderServiceImpl implements OrderService {
         if (userInfo == null) {
             throw new ServiceException(ReturnConstant.NO_USER_INFO, HttpStatus.BAD_REQUEST.value());
         }
-        OrderDetailInfo orderDetailInfo = orderDetailInfoMapper.selectByUserIdAndPreOrderId(orderInfo.getUserId(), orderReq.getPreOrderId());
+        if (userInfo.getVipStatus().equals(BaseConstant.NO)) {
+            UserInfo build = UserInfo.builder()
+                    .id(userInfo.getId())
+                    .vipStatus(BaseConstant.YES)
+                    .updateTime(new Date())
+                    .build();
+            userMapper.updateByPrimaryKeySelective(build);
+        }
 
+        OrderDetailInfo orderDetailInfo = orderDetailInfoMapper.selectByUserIdAndPreOrderId(orderInfo.getUserId(), orderReq.getPreOrderId());
         if (orderDetailInfo != null) {
             // 增加订单次数
             OrderDetailInfo build1 = OrderDetailInfo.builder()

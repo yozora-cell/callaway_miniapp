@@ -56,7 +56,7 @@ public class WeChatLoginService {
             if (userInfo == null) {
                 UserInfo build = UserInfo.builder()
                         .openId(res.getString("openid"))
-                        .name("微信用户_" + UUID.randomUUID().toString().replace("0", "").substring(0, 8))
+                        .name("微信用户")
                         .phone(null)
                         .adminStatus(BaseConstant.NO)
                         .vipApplyStatus(BaseConstant.NO)
