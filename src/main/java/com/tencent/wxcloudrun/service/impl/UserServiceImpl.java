@@ -6,6 +6,7 @@ import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.entity.base.PageInfo;
 import com.tencent.wxcloudrun.entity.constant.BaseConstant;
 import com.tencent.wxcloudrun.entity.constant.OrderConstant;
+import com.tencent.wxcloudrun.entity.constant.ReturnConstant;
 import com.tencent.wxcloudrun.entity.dto.OrderInfo;
 import com.tencent.wxcloudrun.entity.dto.PreOrderInfo;
 import com.tencent.wxcloudrun.entity.dto.UserInfo;
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String vipApply(UserReq userReq) throws ServiceException {
+
+        UserInfo userInfo = userMapper.selectByPhone(userReq.getPhone());
+        if (userInfo != null) {
+            throw new ServiceException(ReturnConstant.PHONE_ALREADY_EXIST, HttpStatus.BAD_REQUEST.value());
+        }
         UserInfo user = JWTUtils.getUser();
         UserInfo build1 = UserInfo.builder()
                 .id(user.getId())
