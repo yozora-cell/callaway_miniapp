@@ -94,22 +94,44 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String intentOrder(UserOrderReq orderReq) throws ServiceException {
-
+        // 校验手机号格式
+        if (!orderReq.getPhone().matches(BaseConstant.PHONE_REGEX)) {
+            throw new ServiceException(ReturnConstant.PHONE_FORMAT_ERROR, HttpStatus.BAD_REQUEST.value());
+        }
         UserInfo user = JWTUtils.getUser();
         PreOrderInfo preOrderInfo = preOrderInfoMapper.selectByPrimaryKey(orderReq.getPreOrderId());
         if (preOrderInfo == null) {
             throw new ServiceException(ReturnConstant.NO_PRE_ORDER, HttpStatus.BAD_REQUEST.value());
         }
-        OrderInfo build = OrderInfo.builder()
-                .userId(user.getId())
-                .preOrderId(orderReq.getPreOrderId())
-                .orderType(OrderConstant.INTENTION_ORDER)
-                .isActive(BaseConstant.NO)
-                .isDel(BaseConstant.NO)
-                .createTime(new Date())
-                .updateTime(new Date())
-                .build();
-        orderInfoMapper.insertSelective(build);
+        // 判断是否是本人
+        if (orderReq.getPhone().equals(user.getPhone())) {
+            OrderInfo build = OrderInfo.builder()
+                    .userId(user.getId())
+                    .preOrderId(orderReq.getPreOrderId())
+                    .orderType(OrderConstant.INTENTION_ORDER)
+                    .isActive(BaseConstant.NO)
+                    .isDel(BaseConstant.NO)
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .build();
+            orderInfoMapper.insertSelective(build);
+        } else {
+            UserInfo other = userMapper.selectByPhone(orderReq.getPhone());
+            if (other == null) {
+                throw new ServiceException(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST.value());
+            }
+            OrderInfo build = OrderInfo.builder()
+                    .userId(other.getId())
+                    .preOrderId(orderReq.getPreOrderId())
+                    .orderType(OrderConstant.INTENTION_ORDER)
+                    .isActive(BaseConstant.NO)
+                    .isDel(BaseConstant.NO)
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .build();
+            orderInfoMapper.insertSelective(build);
+        }
+
         return "success";
     }
 

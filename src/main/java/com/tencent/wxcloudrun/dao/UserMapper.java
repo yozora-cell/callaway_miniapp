@@ -32,4 +32,7 @@ public interface UserMapper {
     int selectCount();
 
     List<UserInfo> selectList(@Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
+
+    UserInfo selectByPhone(@Param("phone") String phone);
+
 }

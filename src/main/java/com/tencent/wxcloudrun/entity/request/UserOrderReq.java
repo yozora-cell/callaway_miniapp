@@ -15,6 +15,10 @@ public class UserOrderReq {
 
     private Long orderId;
 
+    private String name;
+
+    private String phone;
+
     private Integer value;
 
     private Integer preOrderId;

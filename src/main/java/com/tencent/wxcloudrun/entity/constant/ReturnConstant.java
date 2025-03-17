@@ -32,4 +32,5 @@ public interface ReturnConstant {
 
     String NO_ORDER_COUNT = "no package times info";
 
+    String PHONE_FORMAT_ERROR = "phone format error";
 }

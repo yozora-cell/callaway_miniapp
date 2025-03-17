@@ -34,4 +34,5 @@ public interface BaseConstant {
     long MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
 
 
+    String PHONE_REGEX = "^1[3-9]\\d{9}$";
 }
